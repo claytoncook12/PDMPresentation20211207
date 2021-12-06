@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDM Presentation</title>
+    
+    
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {  
+            height: 100vh;
+            margin: 0;
+            font-family: 'Architects Daughter', sans-serif;
+            background-image: linear-gradient(0deg, #ffffff, #006e0f 200%);
+        }
+
+        h1 {
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .navbar ul li {
+            float: left;
+        }
+
+        .navbar ul li a {
+            display: block;
+            color: #009c15;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        form p {
+            text-align: center;
+        }
+
+        /*  */
+        .errorlist {
+            list-style-type: none;
+            background-color: #fd6868;
+            max-width: 400px;
+            margin: auto;
+            padding: 16px 16px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        #audio_files_table td, #audio_files_table th {
+            
+            padding: 8px;
+            }
+
+        #audio_files_table tr:nth-child(even){background-color: #f2f2f2;}
+
+        #audio_files_table tr:nth-child(odd){background-color: #dfdede;}
+
+        #audio_files_table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #333;
+            color: #009c15;
+        }
+
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <ul>
+        <li><a href="{% url 'index' %}">PDM Prsentation 2021/12/07</a></li>
+    </ul>
+</div>
+
+<h1>Upload A File</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            {{ form.as_p }}
+            <p>
+                <button class="" type="submit">Submit</button>
+            </p>
+    </form>
+
+<h1>MP3 File List</h1>
+
+<table id="audio_files_table">
+    <tr>
+      <th>File Name</th>
+      <th>IP Address</th>
+      <th>Player</th>
+    </tr>
+    {% for audio in qs %}
+        <tr>
+            <td>{{ audio.file_name }}</td>
+            <td>{{ audio.ip_address }}</td>
+            <td>
+                <audio
+                controls
+                src="{{ audio.mp3_audio_file.url }}">
+                    Your browser does not support the
+                    <code>audio</code> element.
+                </audio>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
